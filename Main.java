@@ -1,22 +1,53 @@
-class Test<T, U> {
-    T a;
-    U b;
+public class main {
+  
+  interface HelloWorld {
+      public void greet();
+      public void greetSomeone(String someone);
+  }
 
-    Test(T a, U b) {
-        this.a = a;
-        this.b = b;
-    }
+  public void sayHello() {
+      
+      class EnglishGreeting implements HelloWorld {
+          String name = "world";
+          public void greet() {
+              greetSomeone("world");
+          }
+          public void greetSomeone(String someone) {
+              name = someone;
+              System.out.println("Hello " + name);
+          }
+      }
+    
+      HelloWorld englishGreeting = new EnglishGreeting();
+      
+      HelloWorld frenchGreeting = new HelloWorld() {
+          String name = "tout le monde";
+          public void greet() {
+              greetSomeone("tout le monde");
+          }
+          public void greetSomeone(String someone) {
+              name = someone;
+              System.out.println("Salut " + name);
+          }
+      };
+      
+      HelloWorld spanishGreeting = new HelloWorld() {
+          String name = "mundo";
+          public void greet() {
+              greetSomeone("mundo");
+          }
+          public void greetSomeone(String someone) {
+              name = someone;
+              System.out.println("Hola, " + name);
+          }
+      };
+      englishGreeting.greet();
+      frenchGreeting.greetSomeone("Fred");
+      spanishGreeting.greet();
+  }
 
-    public void print() {
-        System.out.println(a);
-        System.out.println(b);
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-        Test<Integer, String> obj1 = new Test<Integer, String>(2, "rdhon");
-        obj1.print();
-
-    }
+  public static void main(String... args) {
+      main myApp = new main();
+      myApp.sayHello();
+  }            
 }

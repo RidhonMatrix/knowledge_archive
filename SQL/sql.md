@@ -541,6 +541,118 @@ FROM Students;
 
 > UNION ALL also get duplicate fields
 
+
+## GROUP BY
+
+In SQL, we use the GROUP BY clause to group rows based on the value of columns.
+
+##### example:
+| customer_id | first_name | last_name  | age | country |
+|-------------|------------|------------|-----|---------|
+|      1      |    John    |    Doe     |  31 |   USA   |
+|      2      |   Robert   |    Luna    |  22 |   USA   |
+|      3      |   David    | Robinson   |  22 |   UK    |
+|      4      |    John    | Reinhardt  |  25 |   UK    |
+|      5      |   Betty    |    Doe     |  28 |   UAE   |
+
+
+> count the number of customers in each country
+```sql
+SELECT country, COUNT(*) AS number
+FROM Customers
+GROUP BY country;
+```
+
+| country | number |
+|---------|--------|
+|   UAE   |   1    |
+|   UK    |   2    |
+|   USA   |   2    |
+
+##### example:
+| order_id |   item   | amount | customer_id |
+|----------|----------|--------|-------------|
+|    1     | Keyboard |  400   |      4      |
+|    2     |  Mouse   |  300   |      4      |
+|    3     | Monitor  | 12000  |      3      |
+|    4     | Keyboard |  400   |      1      |
+|    5     | Mousepad |  250   |      2      |
+
+> count the number of orders of each item
+```sql
+SELECT COUNT(order_id), item
+FROM Orders
+GROUP BY item;
+```
+
+| COUNT(order_id) |   item    |
+|-----------------|-----------|
+|        2        | Keyboard  |
+|        1        | Monitor   |
+|        1        | Mouse     |
+|        1        | Mousepad  |
+
+##### example:
+
+> calculate the total amount spent by each customer
+```sql
+SELECT customer_id, SUM(amount) AS total
+FROM Orders
+GROUP BY customer_id;
+```
+
+<img src="https://www.programiz.com/sites/tutorial2program/files/sql-group-by-example.png" />
+
+
+##### example:
+
+Customers
+| customer_id | first_name | last_name  | age | country |
+|-------------|------------|------------|-----|---------|
+|      1      |    John    |    Doe     |  31 |   USA   |
+|      2      |   Robert   |    Luna    |  22 |   USA   |
+|      3      |   David    | Robinson   |  22 |   UK    |
+|      4      |    John    | Reinhardt  |  25 |   UK    |
+|      5      |   Betty    |    Doe     |  28 |   UAE   |
+
+Orders
+| order_id |   item    | amount | customer_id |
+|----------|-----------|--------|-------------|
+|    1     | Keyboard  |  400   |      4      |
+|    2     |   Mouse   |  300   |      4      |
+|    3     |  Monitor  | 12000  |      3      |
+|    4     | Keyboard  |  400   |      1      |
+|    5     | Mousepad  |  250   |      2      |
+
+>  the number of orders that are placed by each customer.
+```sql
+SELECT Customers.customer_id, Customers.first_name,
+Count(Orders.order_id) AS order_count
+FROM Customers
+LEFT JOIN Orders
+ON Customers.customer_id = Orders.customer_id
+GROUP BY Customers.customer_id;
+```
+| customer_id | first_name | order_count |
+|-------------|------------|-------------|
+|      1      |    John    |      1      |
+|      2      |   Robert   |      1      |
+|      3      |   David    |      1      |
+|      4      |    John    |      2      |
+|      5      |   Betty    |      0      |
+
+##### example:
+
+```sql
+-- group by country and state
+--to calculate minimum age of each group
+
+SELECT country, state, MIN(age) AS min_age
+FROM Persons
+GROUP BY country, state;
+```
+> Here, the SQL command groups all persons with similar country and state, and gives the minimum age of each group.
+
 # other
 
 #### char limit
@@ -560,9 +672,6 @@ output
 | tweet_id |
 |----------|
 | 2        |
-
-
-
 
 
 
